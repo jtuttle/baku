@@ -1,5 +1,8 @@
 require "baku/version"
 
 module Baku
-  # Your code goes here...
+  require 'securerandom'
+  require 'set'
+  
+  Gem.find_files("baku/**/*.rb").each { |path| require path }
 end
