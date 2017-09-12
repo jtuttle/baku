@@ -69,8 +69,8 @@ module Baku
 
     def update_system_membership(entity, old_mask, new_mask)
       @entities_by_system_mask.each do |system_mask, entities|
-        old_match = (system_mask & old_mask) != 0
-        new_match = (system_mask & new_mask) != 0
+        old_match = (system_mask & old_mask == system_mask)
+        new_match = (system_mask & new_mask == system_mask)
         
         if old_match && !new_match
           entities.delete(entity)

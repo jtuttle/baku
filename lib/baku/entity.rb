@@ -21,15 +21,15 @@ module Baku
       @world.entity_manager.entity_add_component(self, component)
     end
 
-    def remove_component(component)
-      if !@components.has_key?(component.class)
+    def remove_component(component_class)
+      if !@components.has_key?(component_class)
         raise StandardError.
-          new("Entity does not have component: #{component.class}")
+          new("Entity does not have component: #{component_class}")
       end
 
       # TODO: this is some pretty ugly coupling, figure out if there's a cleaner
       # way to do this. Callbacks or something.
-      @world.entity_manager.entity_remove_component(self, component)
+      @world.entity_manager.entity_remove_component(self, get_component(component_class))
     end
     
     def get_component(component_class)
