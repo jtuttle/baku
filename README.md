@@ -58,7 +58,6 @@ class MovementSystem < Baku::System
   def process_entity(entity, transform, velocity)
     transform.x += velocity.x
     transform.y += velocity.y
-    transform.z += velocity.z
   end
 end
 ```
