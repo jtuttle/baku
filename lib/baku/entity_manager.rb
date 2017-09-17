@@ -9,19 +9,28 @@ module Baku
     end
 
     def add_entity(entity)
+      add_entity_to_matching_systems(entity)
+      
+      entity.add_event_listener(:component_added,
+                                method(:on_entity_component_added))
+      entity.add_event_listener(:component_removed,
+                                method(:on_entity_component_removed))
+
       entity.tags.each do |tag|
         @entities_by_tag[tag] ||= []
         @entities_by_tag[tag] << entity
       end
-
-      entity.add_event_listener(:component_added, method(:on_entity_component_added))
-      entity.add_event_listener(:component_removed, method(:on_entity_component_removed))
     end
 
     def remove_entity(entity)
       entity.tags.each do |tag|
         @entities_by_tag[tag].delete(entity)
       end
+      
+      entity.remove_event_listener(:component_added,
+                                   method(:on_entity_component_added))
+      entity.remove_event_listener(:component_removed,
+                                   method(:on_entity_component_removed))
 
       entity_mask = get_component_mask(entity.components)
       
@@ -66,7 +75,7 @@ module Baku
       mask
     end
 
-    def on_entity_component_added(entity, component)
+    def add_entity_to_matching_systems(entity)
       component_mask = get_component_mask(entity.components)
 
       @entities_by_system_mask.each do |system_mask, entities|
@@ -74,6 +83,10 @@ module Baku
           entities << entity
         end
       end
+    end
+
+    def on_entity_component_added(entity, component)
+      add_entity_to_matching_systems(entity)
     end
 
     def on_entity_component_removed(entity, component)
