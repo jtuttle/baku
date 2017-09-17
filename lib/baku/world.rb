@@ -32,9 +32,13 @@ module Baku
     end
 
     def create_entity(tags = [])
-      entity = Entity.new(self, tags)
-      @entity_manager.register_entity(entity)
+      entity = Entity.new(tags)
+      @entity_manager.add_entity(entity)
       entity
+    end
+
+    def destroy_entity(entity)
+      @entity_manager.remove_entity(entity)
     end
 
     def get_entities_by_tag(tag)

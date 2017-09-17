@@ -9,8 +9,7 @@ module Baku
     end
 
     def execute
-      entities =
-        @world.entity_manager.get_entities_for_system(self)
+      entities = @world.entity_manager.get_entities_by_system(self)
 
       entities.each do |entity|
         entity_components = @components.map { |c| entity.get_component(c) }
