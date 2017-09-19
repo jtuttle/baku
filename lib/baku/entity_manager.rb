@@ -1,15 +1,29 @@
 module Baku
+  # The EntityManager stores entities in such a way that they can be retrieved
+  # efficiently by either Component mask or tag. Before storing any entities,
+  # the Component masks that we wish to match on should be registered. This step
+  # is performed transparently by the World whenever a System is added.
   class EntityManager
     def initialize
-      @entities_by_system_mask = {}
+      @entities_by_component_mask = {}
       @entities_by_tag = {}
-      
+
+      # TODO: split conversion from components to mask into separate class
       @component_set = Set.new
-      @system_mask_cache = {}
+    end
+
+    def register_component_mask(components)
+      components.each do |component|
+        @component_set << component
+      end
+
+      component_mask = get_component_mask(components)
+
+      @entities_by_component_mask[component_mask] = []
     end
 
     def add_entity(entity)
-      add_entity_to_matching_systems(entity)
+      add_entity_to_matching_component_masks(entity)
       
       entity.add_event_listener(:component_added,
                                 method(:on_entity_component_added))
@@ -34,29 +48,15 @@ module Baku
 
       entity_mask = get_component_mask(entity.components)
       
-      @entities_by_system_mask.each do |system_mask, entities|
-        if system_mask & entity_mask == system_mask
+      @entities_by_component_mask.each do |component_mask, entities|
+        if component_mask & entity_mask == component_mask
           entities.delete(entity)
         end
       end
     end
-    
-    def register_system(system)
-      system.components.each do |component|
-        @component_set << component
-      end
 
-      system_component_mask =
-        get_component_mask(system.components)
-
-      @system_mask_cache[system] = system_component_mask
-      
-      @entities_by_system_mask[system_component_mask] = []
-    end        
-
-    def get_entities_by_system(system)
-      system_mask = @system_mask_cache[system]
-      @entities_by_system_mask[system_mask]
+    def get_entities_with_components(components)
+      @entities_by_component_mask[get_component_mask(components)]
     end
 
     def get_entities_by_tag(tag)
@@ -75,28 +75,27 @@ module Baku
       mask
     end
 
-    def add_entity_to_matching_systems(entity)
-      component_mask = get_component_mask(entity.components)
+    def add_entity_to_matching_component_masks(entity)
+      entity_component_mask = get_component_mask(entity.components)
 
-      @entities_by_system_mask.each do |system_mask, entities|
-        if system_mask & component_mask == system_mask
+      @entities_by_component_mask.each do |component_mask, entities|
+        if component_mask & entity_component_mask == component_mask
           entities << entity
         end
       end
     end
 
     def on_entity_component_added(entity, component)
-      add_entity_to_matching_systems(entity)
+      add_entity_to_matching_component_masks(entity)
     end
 
     def on_entity_component_removed(entity, component)
-      # remove from matched
       old_mask = get_component_mask(entity.components + component)
       new_mask = get_component_mask(entity.components)
 
-      @entities_by_system_mask.each do |system_mask, entities|
-        old_match = (system_mask & old_mask == system_mask)
-        new_match = (system_mask & new_mask == system_mask)
+      @entities_by_component_mask.each do |component_mask, entities|
+        old_match = (component_mask & old_mask == component_mask)
+        new_match = (component_mask & new_mask == component_mask)
         
         if old_match && !new_match
           entities.delete(entity)
