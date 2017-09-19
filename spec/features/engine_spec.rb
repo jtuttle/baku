@@ -3,7 +3,7 @@ require "spec_helper"
 RSpec.describe Baku::World do
   it "executes update systems" do
     world = Baku::World.new
-    world.add_system(MockUpdateSystem.new)
+    world.add_system(MockUpdateSystem)
 
     entity = world.create_entity
     entity.add_component(MockComponent.new)
@@ -15,7 +15,7 @@ RSpec.describe Baku::World do
 
   it "executes draw systems" do
     world = Baku::World.new
-    world.add_system(MockDrawSystem.new)
+    world.add_system(MockDrawSystem)
 
     entity = world.create_entity
     entity.add_component(MockComponent.new)
