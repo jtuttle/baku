@@ -12,7 +12,7 @@ module Baku
     end
     
     def dispatch_event(event_name, *args)
-      return unless @event_listeners.has_key?(event_name)
+      return unless @event_listeners && @event_listeners.has_key?(event_name)
       @event_listeners[event_name].each { |f| f.call(*args) }
     end
   end
