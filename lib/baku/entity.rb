@@ -2,12 +2,10 @@ module Baku
   class Entity
     include Baku::EventDispatcher
     
-    attr_reader :id, :components, :tags
+    attr_reader :components, :tags
     
     def initialize(tags = [])
       @tags = tags
-      
-      @id = SecureRandom.uuid
       @components = {}
     end
 
