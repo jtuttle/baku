@@ -1,17 +1,19 @@
 module Baku
   class System
     attr_reader :components, :game_loop_step
+    attr_writer :entity_manager
     
     def initialize(components, game_loop_step)
       @components = components
       @game_loop_step = game_loop_step
     end
 
-    # TODO: There's nothing preventing a system from processing entities that
-    # don't match its component signature. Is it worth adding some kind of 
-    # validation or some other way of ensuring that the components match?
-    def process_entities(entities)
-      entities.each do |entity|
+    def process_entities
+      if @entity_manager.nil?
+        raise StandardError.new("Must set :entity_manager property of System.")
+      end
+      
+      @entity_manager.get_entities_with_components(@components).each do |entity|
         entity_components = @components.map { |c| entity.get_component(c) }
         process_entity(entity, *entity_components)
       end

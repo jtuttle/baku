@@ -13,9 +13,7 @@ module Baku
       @blackboard = {}
     end
 
-    def add_system(system_class)
-      system = system_class.new
-      
+    def add_system(system)
       system_list = 
         if system.game_loop_step == :update
           @update_systems
@@ -28,8 +26,10 @@ module Baku
       end
       
       system_list << system
-      
+
       @entity_manager.register_component_mask(system.components)
+      
+      system.entity_manager = @entity_manager
     end
 
     def create_entity(tags = [])
@@ -50,17 +50,13 @@ module Baku
       @delta_ms = delta_ms
       
       @update_systems.each do |system|
-        entities =
-          entity_manager.get_entities_with_components(system.components)
-        system.process_entities(entities)
+        system.process_entities
       end
     end
 
     def draw
       @draw_systems.each do |system|
-        entities =
-          entity_manager.get_entities_with_components(system.components)
-        system.process_entities(entities)
+        system.process_entities
       end
     end
   end
