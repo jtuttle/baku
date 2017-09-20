@@ -1,8 +1,12 @@
 require "baku/version"
 
 module Baku
-  require 'pry-byebug'
-  require 'securerandom'
+  begin
+    require 'pry-byebug'
+  rescue LoadError
+    # development dependencies
+  end
+    
   require 'set'
 
   require_relative "baku/event_dispatcher.rb"
