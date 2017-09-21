@@ -9,10 +9,8 @@ RSpec.describe Baku::System do
     
     it "raises error if world reference not set" do
       expect {
-        system.process_entities
-      }.to raise_error {
-        StandardError.new("Must set :world property of System.")
-      }
+        system.execute
+      }.to raise_error(StandardError, "Must set :world property of System.")
     end
     
     it "processes matching entities" do
@@ -22,7 +20,7 @@ RSpec.describe Baku::System do
       entity.add_component(component)
       world.entity_manager.add_entity(entity)
       
-      system.process_entities
+      system.execute
 
       expect(component.count).to eq(1)
     end
