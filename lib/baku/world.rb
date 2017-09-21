@@ -13,6 +13,13 @@ module Baku
       @blackboard = {}
     end
 
+    def dispose
+      @update_systems.clear
+      @draw_systems.clear
+      @entity_manager.dispose
+      @blackboard.clear
+    end
+
     def add_system(system)
       system_list = 
         if system.game_loop_step == :update

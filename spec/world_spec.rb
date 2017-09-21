@@ -49,4 +49,46 @@ RSpec.describe Baku::World do
       expect(component.count).to eq(1)
     end
   end
+
+  describe "disposing" do
+    let(:update_system) { MockUpdateSystem.new }
+    let(:draw_system) { MockDrawSystem.new }
+    let(:entity) { world.create_entity }
+    let(:component) { MockComponent.new }
+    
+    it "disposes update systems" do
+      world.add_system(update_system)
+      entity.add_component(component)
+
+      world.dispose
+      world.update(1)
+
+      expect(component.count).to eq(0)
+    end
+
+    it "disposes draw systems" do
+      world.add_system(draw_system)
+      entity.add_component(component)
+
+      world.dispose
+      world.draw
+
+      expect(component.count).to eq(0)
+    end
+    
+    it "disposes entity manager" do
+      expect(world.entity_manager).
+        to receive(:dispose)
+
+      world.dispose
+    end
+
+    it "disposes blackboard entries" do
+      world.blackboard["test"] = 1
+
+      world.dispose
+
+      expect(world.blackboard["test"]).to eq(nil)
+    end
+  end
 end
