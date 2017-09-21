@@ -21,6 +21,13 @@ RSpec.describe Baku::EntityManager do
       expect(entity_manager.get_entities(system.component_mask)).
         to eq([match_entity])
     end
+
+    it "does not add the entity multiple times" do
+      match_entity.add_component(AnotherMockComponent.new)
+
+      expect(entity_manager.get_entities(system.component_mask)).
+        to eq([match_entity])
+    end
   end
 
   describe "removing an entity" do

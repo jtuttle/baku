@@ -56,7 +56,9 @@ module Baku
 
     def add_entity_to_matching_component_lists(entity)
       @entities_by_component_mask.each do |component_mask, entities|
-        if component_mask.matches?(entity.component_mask)
+        component_mask_match = component_mask.matches?(entity.component_mask)
+
+        if component_mask_match && !entities.include?(entity)
           entities << entity
         end
       end
