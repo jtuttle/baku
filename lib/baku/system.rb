@@ -8,12 +8,18 @@ module Baku
       @game_loop_step = game_loop_step
     end
 
-    def process_entities
+    def execute
       if @world.nil?
         raise StandardError.new("Must set :world property of System.")
       end
       
-      @world.entity_manager.get_entities(component_mask).each do |entity|
+      entities = @world.entity_manager.get_entities(component_mask)
+
+      process_entities(entities)
+    end
+
+    def process_entities(entities)
+      entities.each do |entity|
         entity_components = @components.map { |c| entity.get_component(c) }
         process_entity(entity, *entity_components)
       end
@@ -25,6 +31,12 @@ module Baku
 
     def component_mask
       @component_mask ||= ComponentMask.from_components(@components)
+    end
+
+    private
+
+    def retrieve_entities
+      @world.entity_manager.get_entities(component_mask)
     end
   end
 end

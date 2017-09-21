@@ -44,16 +44,11 @@ module Baku
 
     def update(delta_ms)
       @delta_ms = delta_ms
-      
-      @update_systems.each do |system|
-        system.process_entities
-      end
+      @update_systems.each(&:execute)
     end
 
     def draw
-      @draw_systems.each do |system|
-        system.process_entities
-      end
+      @draw_systems.each(&:execute)
     end
   end
 end
