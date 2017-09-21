@@ -8,7 +8,7 @@ RSpec.describe Baku::System do
     let(:entity_manager) { Baku::EntityManager.new }
 
     before do
-      entity_manager.register_component_mask(system.components)
+      entity_manager.register_component_mask(system.component_mask)
     end
     
     it "raises error if entity manager reference not set" do

@@ -27,7 +27,7 @@ module Baku
       
       system_list << system
 
-      @entity_manager.register_component_mask(system.components)
+      @entity_manager.register_component_mask(system.component_mask)
       
       system.entity_manager = @entity_manager
     end

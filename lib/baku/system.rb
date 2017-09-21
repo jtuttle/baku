@@ -13,7 +13,7 @@ module Baku
         raise StandardError.new("Must set :entity_manager property of System.")
       end
       
-      @entity_manager.get_entities_with_components(@components).each do |entity|
+      @entity_manager.get_entities(component_mask).each do |entity|
         entity_components = @components.map { |c| entity.get_component(c) }
         process_entity(entity, *entity_components)
       end
@@ -21,6 +21,10 @@ module Baku
     
     def process_entity(entity)
       raise NotImplementedError
+    end
+
+    def component_mask
+      @component_mask ||= ComponentMask.from_components(@components)
     end
   end
 end
