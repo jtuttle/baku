@@ -9,6 +9,11 @@ module Baku
       @entities_by_tag = {}
     end
 
+    def dispose
+      @entities_by_component_mask.clear
+      @entities_by_tag.clear
+    end
+
     def register_component_mask(component_mask)
       @entities_by_component_mask[component_mask] = []
     end
@@ -45,13 +50,13 @@ module Baku
     end
 
     def get_entities(component_mask)
-      @entities_by_component_mask[component_mask]
+      @entities_by_component_mask[component_mask] || []
     end
 
     def get_entities_by_tag(tag)
-      @entities_by_tag[tag]
+      @entities_by_tag[tag] || []
     end
-
+    
     private
 
     def add_entity_to_matching_component_lists(entity)
