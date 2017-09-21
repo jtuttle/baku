@@ -1,3 +1,7 @@
+# 0.2.2
+
+* Fix entities being added to entity manager multiple times.
+
 # 0.2.1
 
 * Restore system access to world delta_ms.
