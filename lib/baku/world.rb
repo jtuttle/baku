@@ -42,10 +42,6 @@ module Baku
       @entity_manager.remove_entity(entity)
     end
 
-    def get_entities_by_tag(tag)
-      @entity_manager.get_entities_by_tag(tag)
-    end
-
     def update(delta_ms)
       @delta_ms = delta_ms
       
