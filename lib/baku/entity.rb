@@ -17,6 +17,8 @@ module Baku
 
       components[component.class] = component
 
+      update_component_mask
+      
       dispatch_event(:component_added, self, component)
     end
 
@@ -28,11 +30,23 @@ module Baku
 
       @components.delete(component_class)
 
+      update_component_mask
+      
       dispatch_event(:component_removed, self, @components[component_class])
     end
     
     def get_component(component_class)
       @components[component_class]
+    end
+
+    def component_mask
+      @component_mask ||= ComponentMask.from_components(@components)
+    end
+
+    private
+
+    def update_component_mask
+      @component_mask = ComponentMask.from_components(@components)
     end
   end
 end

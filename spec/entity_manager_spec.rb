@@ -2,13 +2,13 @@ require "spec_helper"
 
 RSpec.describe Baku::EntityManager do
   let(:entity_manager) { Baku::EntityManager.new }
-  let(:mock_system) { MockUpdateSystem.new }
+  let(:system) { MockUpdateSystem.new }
 
   let(:match_entity) { Baku::Entity.new }
   let(:no_match_entity) { Baku::Entity.new }
   
   before do
-    entity_manager.register_component_mask(mock_system.components)
+    entity_manager.register_component_mask(system.component_mask)
   end
 
   describe "registering an entity" do
@@ -18,9 +18,8 @@ RSpec.describe Baku::EntityManager do
     end
 
     it "associates the entity with its matching systems" do
-      components =
-        entity_manager.get_entities_with_components(mock_system.components)
-      expect(components).to eq([match_entity])
+      expect(entity_manager.get_entities(system.component_mask)).
+        to eq([match_entity])
     end
   end
 
@@ -33,9 +32,8 @@ RSpec.describe Baku::EntityManager do
     end
 
     it "disassociates the entity with its matching systems" do
-      components =
-        entity_manager.get_entities_with_components(mock_system.components)
-      expect(components).to eq([])
+      expect(entity_manager.get_entities(system.component_mask)).
+        to eq([])
     end
   end
   
@@ -48,9 +46,8 @@ RSpec.describe Baku::EntityManager do
     end
 
     it "only returns entities that match the system signature" do
-      components =
-        entity_manager.get_entities_with_components(mock_system.components)
-      expect(components).to eq([match_entity])
+      expect(entity_manager.get_entities(system.component_mask)).
+        to eq([match_entity])
     end
   end
   
