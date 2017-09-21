@@ -1,3 +1,7 @@
+# 0.2.3
+
+* Separate entity retrieval and processing logic in system to allow pre and post-processing.
+
 # 0.2.2
 
 * Fix entities being added to entity manager multiple times.
