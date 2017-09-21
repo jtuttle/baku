@@ -1,7 +1,7 @@
 module Baku
   class System
     attr_reader :components, :game_loop_step
-    attr_writer :entity_manager
+    attr_writer :world
     
     def initialize(components, game_loop_step)
       @components = components
@@ -9,11 +9,11 @@ module Baku
     end
 
     def process_entities
-      if @entity_manager.nil?
-        raise StandardError.new("Must set :entity_manager property of System.")
+      if @world.nil?
+        raise StandardError.new("Must set :world property of System.")
       end
       
-      @entity_manager.get_entities(component_mask).each do |entity|
+      @world.entity_manager.get_entities(component_mask).each do |entity|
         entity_components = @components.map { |c| entity.get_component(c) }
         process_entity(entity, *entity_components)
       end

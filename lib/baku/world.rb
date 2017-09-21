@@ -29,7 +29,7 @@ module Baku
 
       @entity_manager.register_component_mask(system.component_mask)
       
-      system.entity_manager = @entity_manager
+      system.world = self
     end
 
     def create_entity(tags = [])

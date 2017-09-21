@@ -5,24 +5,23 @@ RSpec.describe Baku::System do
     let(:system) { MockUpdateSystem.new }
     let(:component) { MockComponent.new }
 
-    let(:entity_manager) { Baku::EntityManager.new }
-
-    before do
-      entity_manager.register_component_mask(system.component_mask)
-    end
+    let(:world) { Baku::World.new }
     
-    it "raises error if entity manager reference not set" do
-      expect { system.process_entities }.to raise_error {
-        StandardError.new("Must set :entity_manager property of System.")
+    it "raises error if world reference not set" do
+      expect {
+        system.process_entities
+      }.to raise_error {
+        StandardError.new("Must set :world property of System.")
       }
     end
     
-    it "processes the entities it is given" do
+    it "processes matching entities" do
+      world.add_system(system)
+      
       entity = Baku::Entity.new
       entity.add_component(component)
-      entity_manager.add_entity(entity)
+      world.entity_manager.add_entity(entity)
       
-      system.entity_manager = entity_manager
       system.process_entities
 
       expect(component.count).to eq(1)
