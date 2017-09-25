@@ -8,6 +8,10 @@ Baku is still very much a work in progress. There are undoubtedly bugs. I will
 be continually iterating and improving on it as I use it for my personal game
 development projects. Enjoy!
 
+## Quick Start
+
+The [[Quick Start Guide]] will walk you through setting up a basic project with Gosu and Baku.
+
 ## Installation
 
 Add this line to your application's Gemfile:
