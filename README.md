@@ -10,7 +10,7 @@ development projects. Enjoy!
 
 ## Quick Start
 
-The [[Quick Start Guide]] will walk you through setting up a basic project with Gosu and Baku.
+The [Quick Start Guide](https://github.com/jtuttle/baku/wiki/Quick-Start-Guide) will walk you through setting up a basic project with Gosu and Baku.
 
 ## Installation
 
