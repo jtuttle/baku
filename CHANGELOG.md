@@ -1,3 +1,7 @@
+# 0.2.4
+
+* Add world disposal.
+
 # 0.2.3
 
 * Separate entity retrieval and processing logic in system to allow pre and post-processing.
