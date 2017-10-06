@@ -1,16 +1,10 @@
 # Baku
 
-Baku provides a simple Entity Component System framework for use with Ruby game
-engines. It has been tested with [Gosu](https://www.libgosu.org/ruby.html), but
-should be flexible enough to work with any Ruby project that has a game loop.
+Baku provides a simple Entity Component System framework for use with Ruby game engines. It has been tested with [Gosu](https://www.libgosu.org/ruby.html), but should be flexible enough to work with any Ruby project that has a game loop.
 
-Baku is still very much a work in progress. There are undoubtedly bugs. I will
-be continually iterating and improving on it as I use it for my personal game
-development projects. Enjoy!
+Baku is still very much a work in progress. There are undoubtedly bugs. I will be continually iterating and improving on it as I use it for my personal game development projects. Enjoy!
 
-## Quick Start
-
-The [Quick Start Guide](https://github.com/jtuttle/baku/wiki/Quick-Start-Guide) will walk you through setting up a basic project with Gosu and Baku.
+The [Baku wiki](https://github.com/jtuttle/baku/wiki) includes a [quick start guide](https://github.com/jtuttle/baku/wiki/quick-start-guide) if you're already familiar with the ECS approach. If not, there is also a descriptive [tutorial](https://github.com/jtuttle/baku/wiki/tutorial) that will cover ECS concepts while walking you through setting up Gosu with Baku.
 
 ## Installation
 
@@ -27,74 +21,6 @@ And then execute:
 Or install it yourself as:
 
     $ gem install baku
-
-## Usage
-
-Create components by overriding `Baku::Component` and calling `super()`. The
-example component below simple stores the x and y coordinates of an entity in
-a 2D space.
-
-```
-class TransformComponent < Baku::Component
-  attr_accessor :x, :y
-
-  def initialize(x, y)
-    super()
-
-    @x = x
-    @y = y
-  end
-end
-```
-
-Create systems by overriding `Baku::System` and calling `super()` to specify the
-components that an entity must possess in order for it to be processed by the
-system. The example system below will only operate on entities that possess both
-a `TransformComponent` and a `VelocityComponent`. You will also need to specify
-whether the system will be run during the `:update` or `:draw` loop.
-
-```
-class MovementSystem < Baku::System
-  def initialize
-    super([TransformComponent, VelocityComponent], :update)
-  end
-
-  def process_entity(entity, transform, velocity)
-    transform.x += velocity.x
-    transform.y += velocity.y
-  end
-end
-```
-
-In your game initialization logic, create a `Baku::World` instance and register
-any systems you want to use. In the below example, we register our example
-system from above and create an entity that will be processed by the system:
-
-```
-def game_initialization
-  @world = Baku::World.new
-  @world.add_system(MovementSystem.new)
-
-  entity = @world.create_entity
-  entity.add_component(TransformComponent)
-  entity.add_component(VelocityComponent)
-end
-```
-
-In your game `update` and `draw` loops, call the `Baku::World` instance's
-`update` and `draw` methods. You'll want to keep track of the millseconds
-between frames and pass that to the `update` method if you're planning to
-use the entity component system for anything that needs it.
-
-```
-def game_update_loop
-  @world.update(delta_ms)
-end
-
-def game_draw_loop
-  @world.draw
-end
-```
 
 ## Development
 
