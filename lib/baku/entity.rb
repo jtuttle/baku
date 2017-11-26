@@ -34,6 +34,10 @@ module Baku
       
       dispatch_event(:component_removed, self, @components[component_class])
     end
+
+    def has_component?(component_class)
+      @components.has_key?(component_class)
+    end
     
     def get_component(component_class)
       @components[component_class]
