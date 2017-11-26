@@ -1,3 +1,7 @@
+# 0.2.5
+
+* Add has_component? to Entity.
+
 # 0.2.4
 
 * Add world disposal.
