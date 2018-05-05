@@ -1,3 +1,7 @@
+# 0.2.6
+
+* Fix bug with entity component removal.
+
 # 0.2.5
 
 * Add has_component? to Entity.
