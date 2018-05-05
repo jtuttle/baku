@@ -28,11 +28,12 @@ module Baku
           new("Entity does not have component: #{component_class}")
       end
 
+      removed_component = @components[component_class]
       @components.delete(component_class)
 
       update_component_mask
       
-      dispatch_event(:component_removed, self, @components[component_class])
+      dispatch_event(:component_removed, self, removed_component)
     end
 
     def has_component?(component_class)

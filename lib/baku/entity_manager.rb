@@ -74,12 +74,12 @@ module Baku
     end
 
     def on_entity_component_removed(entity, component)
-      old_mask = ComponentMask.from_components(entity.components + component)
+      old_mask = ComponentMask.from_components(entity.components.keys + [component.class])
       new_mask = entity.component_mask
 
       @entities_by_component_mask.each do |component_mask, entities|
-        old_match = component_mask.match?(old_mask)
-        new_match = component_mask.match?(new_mask)
+        old_match = component_mask.matches?(old_mask)
+        new_match = component_mask.matches?(new_mask)
         
         if old_match && !new_match
           entities.delete(entity)

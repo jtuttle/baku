@@ -84,6 +84,38 @@ RSpec.describe Baku::EntityManager do
     end
   end
 
+  describe "adding a component to an existing entity" do
+    let(:entity) { Baku::Entity.new }
+    let(:component) { MockComponent.new }
+
+    before do
+      entity_manager.add_entity(entity)
+    end
+    
+    it "adds the entity to a matching component list" do
+      entity.add_component(component)
+      expect(entity_manager.get_entities(entity.component_mask)).
+        to eq([entity])
+    end
+  end
+
+  describe "removing a component from an existing entity" do
+    let(:entity) { Baku::Entity.new }
+    let(:component) { MockComponent.new }
+
+    before do
+      entity_manager.add_entity(entity)
+      entity.add_component(component)
+    end
+
+    it "removes the entity to a matching component list" do
+      mask = entity.component_mask
+      entity.remove_component(MockComponent)
+      expect(entity_manager.get_entities(entity.component_mask)).
+        to eq([])
+    end
+  end
+
   describe "disposing" do
     before do
       entity_manager.add_entity(match_entity)
