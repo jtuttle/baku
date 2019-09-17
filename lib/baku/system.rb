@@ -13,9 +13,11 @@ module Baku
         raise StandardError.new("Must set :world property of System.")
       end
       
-      entities = @world.entity_manager.get_entities(component_mask)
+      if enough_time_elapsed?(@world.delta_ms) 
+        entities = @world.entity_manager.get_entities(component_mask)
 
-      process_entities(entities)
+        process_entities(entities)
+      end
     end
 
     def process_entities(entities)
@@ -37,6 +39,10 @@ module Baku
 
     def retrieve_entities
       @world.entity_manager.get_entities(component_mask)
+    end
+
+    def enough_time_elapsed?(delta_ms)
+      true
     end
   end
 end

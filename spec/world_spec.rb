@@ -36,7 +36,7 @@ RSpec.describe Baku::World do
     it "runs update systems correctly" do
       world.add_system(update_system)
       entity.add_component(component)
-      world.update(1)
+      world.update(MockUpdateSystem::TIME_LIMIT)
 
       expect(component.count).to eq(1)
     end
