@@ -1,6 +1,6 @@
 module Baku
   class Entity
-    include Baku::EventDispatcher
+    include Miru::EventDispatcher
     
     attr_reader :components, :tags
     
