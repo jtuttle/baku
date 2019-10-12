@@ -1,3 +1,7 @@
+# 0.2.6
+
+* Replace internal event listener with miru gem.
+
 # 0.2.5
 
 * Add has_component? to Entity.

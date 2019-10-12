@@ -21,10 +21,14 @@ module Baku
     def add_entity(entity)
       add_entity_to_matching_component_lists(entity)
       
-      entity.add_event_listener(:component_added,
-                                method(:on_entity_component_added))
-      entity.add_event_listener(:component_removed,
-                                method(:on_entity_component_removed))
+      entity.add_event_listener(
+        :component_added,
+        method(:on_entity_component_added)
+      )
+      entity.add_event_listener(
+        :component_removed,
+        method(:on_entity_component_removed)
+      )
 
       entity.tags.each do |tag|
         @entities_by_tag[tag] ||= []
@@ -37,10 +41,14 @@ module Baku
         @entities_by_tag[tag].delete(entity)
       end
       
-      entity.remove_event_listener(:component_added,
-                                   method(:on_entity_component_added))
-      entity.remove_event_listener(:component_removed,
-                                   method(:on_entity_component_removed))
+      entity.remove_event_listener(
+        :component_added,
+        method(:on_entity_component_added)
+      )
+      entity.remove_event_listener(
+        :component_removed,
+        method(:on_entity_component_removed)
+      )
 
       @entities_by_component_mask.each do |component_mask, entities|
         if component_mask.matches?(entity.component_mask)
