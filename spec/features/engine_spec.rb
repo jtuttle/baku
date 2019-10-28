@@ -8,7 +8,7 @@ RSpec.describe Baku::World do
     entity = world.create_entity
     entity.add_component(MockComponent.new)
     
-    world.update(1)
+    world.update(MockUpdateSystem::TIME_LIMIT)
 
     expect(entity.get_component(MockComponent).count).to eq(1)
   end
