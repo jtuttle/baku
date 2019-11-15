@@ -31,12 +31,10 @@ module Baku
       if system_list.map(&:class).include?(system.class)
         raise StandardError.new("Already added #{system.class} system to world.")
       end
+
+      system.register_world(self)
       
       system_list << system
-
-      @entity_manager.register_component_mask(system.component_mask)
-      
-      system.world = self
     end
 
     def create_entity(tags = [])

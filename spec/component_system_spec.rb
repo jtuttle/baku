@@ -1,7 +1,7 @@
 require "spec_helper"
 
-RSpec.describe Baku::System do
-  describe "processing entities" do
+RSpec.describe Baku::ComponentSystem do
+  describe "execute" do
     let(:system) { MockUpdateSystem.new }
     let(:component) { MockComponent.new }
 
@@ -16,9 +16,8 @@ RSpec.describe Baku::System do
     it "processes matching entities" do
       world.add_system(system)
       
-      entity = Baku::Entity.new
+      entity = world.create_entity
       entity.add_component(component)
-      world.entity_manager.add_entity(entity)
       
       system.execute
 
