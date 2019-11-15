@@ -1,3 +1,7 @@
+# Unreleased
+
+* Add tag system that processes entities by tag.
+
 # 0.2.6
 
 * Replace internal event listener with miru gem.

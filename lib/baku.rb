@@ -7,8 +7,9 @@ module Baku
     # development dependencies
   end
 
-  require 'miru'
   require 'set'
+  
+  require 'miru'
 
   Gem.find_files("baku/**/*.rb").each { |path| require path }
 end
