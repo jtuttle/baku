@@ -1,4 +1,4 @@
-# Unreleased
+# 0.3.0
 
 * Add tag system that processes entities by tag.
 
