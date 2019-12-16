@@ -1,3 +1,7 @@
+# 1.0.0
+
+* Make blackboard static.
+
 # 0.3.0
 
 * Add tag system that processes entities by tag.

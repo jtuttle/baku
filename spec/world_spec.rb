@@ -84,11 +84,11 @@ RSpec.describe Baku::World do
     end
 
     it "disposes blackboard entries" do
-      world.blackboard["test"] = 1
+      Baku::World.blackboard["test"] = 1
 
       world.dispose
 
-      expect(world.blackboard["test"]).to eq(nil)
+      expect(Baku::World.blackboard["test"]).to eq(nil)
     end
   end
 end

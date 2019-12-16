@@ -1,6 +1,8 @@
 module Baku
   class World
-    attr_reader :entity_manager, :blackboard, :delta_ms
+    @@blackboard = {}
+    
+    attr_reader :entity_manager, :delta_ms
     
     def initialize
       # TODO: there's currently no way to interleave update and draw systems.
@@ -9,15 +11,17 @@ module Baku
       @draw_systems = []
 
       @entity_manager = EntityManager.new
-      
-      @blackboard = {}
     end
 
+    def self.blackboard
+      @@blackboard
+    end
+    
     def dispose
       @update_systems.clear
       @draw_systems.clear
       @entity_manager.dispose
-      @blackboard.clear
+      @@blackboard.clear
     end
 
     def add_system(system)
