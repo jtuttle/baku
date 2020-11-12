@@ -6,7 +6,7 @@ RSpec.describe Baku::EntityManager do
 
   let(:match_entity) { Baku::Entity.new }
   let(:tagged_entity) { Baku::Entity.new([:some_tag]) }
-  
+
   before do
     entity_manager.register_component_mask(system.component_mask)
     match_entity.add_component(MockComponent.new)
@@ -30,6 +30,17 @@ RSpec.describe Baku::EntityManager do
     end
   end
 
+  describe "registering a component mask" do
+    before do
+      entity_manager.add_entity(match_entity)
+    end
+
+    it "doesn't override entities if the component mask has already been registered" do
+      expect { entity_manager.register_component_mask(system.component_mask) }
+        .not_to change { entity_manager.get_entities(system.component_mask) }
+    end
+  end
+
   describe "removing an entity" do
     before do
       entity_manager.add_entity(match_entity)
@@ -41,12 +52,12 @@ RSpec.describe Baku::EntityManager do
         to eq([])
     end
   end
-  
+
   describe "retrieving entities for a system" do
     let(:no_match_entity) { Baku::Entity.new }
-    
+
     before do
-      entity_manager.add_entity(no_match_entity)      
+      entity_manager.add_entity(no_match_entity)
     end
 
     it "returns empty array if no entities found" do
@@ -56,12 +67,12 @@ RSpec.describe Baku::EntityManager do
 
     it "only returns entities that match the system signature" do
       entity_manager.add_entity(match_entity)
-      
+
       expect(entity_manager.get_entities(system.component_mask)).
         to eq([match_entity])
     end
   end
-  
+
   describe "retrieving entities by tag" do
     let(:untagged_entity) { Baku::Entity.new }
     let(:other_tagged_entity) { Baku::Entity.new([:other_tag]) }
@@ -70,15 +81,15 @@ RSpec.describe Baku::EntityManager do
       entity_manager.add_entity(untagged_entity)
       entity_manager.add_entity(other_tagged_entity)
     end
-    
+
     it "returns empty array if no entities found" do
       expect(entity_manager.get_entities_by_tag(:empty_tag)).
         to eq([])
     end
-    
+
     it "returns only the entities with a matching tag" do
       entity_manager.add_entity(tagged_entity)
-      
+
       expect(entity_manager.get_entities_by_tag(:some_tag)).
         to eq([tagged_entity])
     end
@@ -91,7 +102,7 @@ RSpec.describe Baku::EntityManager do
     before do
       entity_manager.add_entity(entity)
     end
-    
+
     it "adds the entity to a matching component list" do
       entity.add_component(component)
       expect(entity_manager.get_entities(entity.component_mask)).
@@ -135,4 +146,4 @@ RSpec.describe Baku::EntityManager do
     end
   end
 end
- 
+

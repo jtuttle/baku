@@ -15,12 +15,12 @@ module Baku
     end
 
     def register_component_mask(component_mask)
-      @entities_by_component_mask[component_mask] = []
+      @entities_by_component_mask[component_mask] ||= []
     end
 
     def add_entity(entity)
       add_entity_to_matching_component_lists(entity)
-      
+
       entity.add_event_listener(
         :component_added,
         method(:on_entity_component_added)
@@ -40,7 +40,7 @@ module Baku
       entity.tags.each do |tag|
         @entities_by_tag[tag].delete(entity)
       end
-      
+
       entity.remove_event_listener(
         :component_added,
         method(:on_entity_component_added)
@@ -64,7 +64,7 @@ module Baku
     def get_entities_by_tag(tag)
       @entities_by_tag[tag] || []
     end
-    
+
     private
 
     def add_entity_to_matching_component_lists(entity)
@@ -88,11 +88,11 @@ module Baku
       @entities_by_component_mask.each do |component_mask, entities|
         old_match = component_mask.matches?(old_mask)
         new_match = component_mask.matches?(new_mask)
-        
+
         if old_match && !new_match
           entities.delete(entity)
         end
-      end      
+      end
     end
   end
 end
