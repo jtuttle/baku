@@ -1,3 +1,7 @@
+# 0.3.1
+
+* Prevent system registration from overwriting existing entity list.
+
 # 0.3.0
 
 * Add tag system that processes entities by tag.
