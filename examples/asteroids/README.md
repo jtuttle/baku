@@ -2,6 +2,8 @@
 
 This is a simple Asteroids clone using Gosu with Baku. It is still a work-in-progress but currently shows examples of several useful features such as sprite rendering and player movement.
 
+![Screenshot](asteroids.png)
+
 # Running the Game
 
 ```
