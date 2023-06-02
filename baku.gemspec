@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
 
   # use double quotes for "\x0" (https://github.com/bundler/bundler/issues/4133)
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(test|spec|features)/})
+    f.match(%r{^(test|spec|features|examples)/})
   end
   spec.require_paths = ['lib']
 
