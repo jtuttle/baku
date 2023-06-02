@@ -1,0 +1,10 @@
+#ruby=ruby-2.4.1
+#ruby-gemset=asteroids
+
+source 'https://rubygems.org'
+
+gem 'require_all', '~> 1.4.0'
+
+gem 'gosu'
+gem 'pry', '~> 0.10.4'
+gem 'baku', '~> 1.0.0'
